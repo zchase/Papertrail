@@ -1,0 +1,16 @@
+zchase/Papertrail:
+  PkgInclude:
+    - remote_syslog.yml
+    - rsyslog.conf
+  PostInstall:
+    - wget https://github.com/papertrail/remote_syslog2/releases/download/v0.15/remote_syslog_linux_amd64.tar.gz
+    - tar -zxvf remote_syslog_linux_amd64.tar.gz
+    - rm remote_syslog_linux_amd64.tar.gz
+    - sudo cp -f remote_syslog/remote_syslog /usr/local/bin/
+    - sudo mv -f remote_syslog.yml /etc/
+    - sudo mv -f rsyslog.conf /etc/
+  PreStart:
+    - sudo killall remote_syslog || true
+  Start:
+    - sudo service rsyslog restart
+    - sudo remote_syslog -p 35624 -d logs3.papertrailapp.com --pid-file=/var/run/remote_syslog.pid -c /etc/remote_syslog.yml
