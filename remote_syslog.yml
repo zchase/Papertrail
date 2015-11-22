@@ -1,0 +1,6 @@
+files:
+  - /distelli/envs/meteor-prod/distelli-stdout.log
+destination:
+  host: logs3.papertrailapp.com
+  port: 41377
+  protocol: tls
